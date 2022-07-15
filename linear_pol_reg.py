@@ -52,12 +52,12 @@ plt.plot(x_line,y_line)
 plt.show()
 
 
-from matplotlib import animation,rc
-from display import HTML
+from matplotlib import animation
+# from Ipython.display import HTML
 
 fig,ax=plt.subplots()
 plt.plot(x,y,'ro')
-line, =ax.plot([],[],width=2)
+line, =ax.plot([],[],linewidth=2)
 def animate(i):
     x = numpy.arange(20,90)
     y = m_hist[i] * x + c_hist[i]
@@ -66,4 +66,9 @@ def animate(i):
 
 
 anim = animation.FuncAnimation(fig, animate,frames=len(m_hist), interval=100)
-HTML(anim.to_html5_video())
+# HTML(anim.to_html5_video())
+
+'''LINEAR REGRESSION USING SCIKIT'''
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
