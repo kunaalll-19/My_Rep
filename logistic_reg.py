@@ -33,7 +33,7 @@ class LR(nn.Module):
         super(LR,self).__init__()
         self.linear=nn.Linear(n_input_features,1)
     
-    def forward(self):
+    def forward(self,x):
         y_pred=torch.sigmoid(self.linear(x))
         return y_pred
 
@@ -44,13 +44,12 @@ learning_rate=0.01
 criterion=nn.BCELoss()
 optimiser=torch.optim.SGD(model.parameters(),lr=learning_rate)
 
-
 #TRAINING LOOP
 num=100
 for i in range(num):
     #forward pass
-    y_pred=model(x_train)
-    loss=criterion(y_pred,y_train)
+    y_predicted=model(x_train)
+    loss=criterion(y_predicted,y_train)
 
     #backward pass
     loss.backward()
@@ -61,4 +60,12 @@ for i in range(num):
     
     #plot
     if (i+1)%10==0:
-        print(f'epoch : {i+1}, loss = {loss.item():.4f}')
+        print('epoch:',i+1,'loss:',loss.item())
+        
+        
+#ACCURACY CHECK
+with torch.no_grad():
+    y_predicted=model(x_test)
+    y_pred_cls=y_predicted.round()
+    acc=y_pred_cls.eq(y_test).sum()/float(y_test.shape[0])
+    print('accuracy=',acc)
